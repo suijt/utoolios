@@ -1,0 +1,4 @@
+# Monorepo workspace definition (see docs/05-MONOREPO-STRATEGY.md)
+packages:
+  - "apps/*"
+  - "packages/*"
