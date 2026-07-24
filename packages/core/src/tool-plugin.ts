@@ -44,6 +44,8 @@ export interface ToolConfig {
   readonly tier: ToolTier
   readonly status: ToolStatus
   readonly flags: ToolFlags
+  /** ISO date the tool actually shipped (real git history, never fabricated) — powers "Recently added" (`design/11-homepage.md`). */
+  readonly publishedAt: string
 }
 
 /**

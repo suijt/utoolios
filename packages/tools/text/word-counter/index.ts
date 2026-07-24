@@ -13,6 +13,7 @@ export default defineTool({
     serverSide: false,
     tier: 'bronze',
     status: 'published',
+    publishedAt: '2026-07-21',
     flags: { ads: true, showRelated: false, showArticle: true, showFaq: true },
   },
   inputSchema: wordCounterSchema,

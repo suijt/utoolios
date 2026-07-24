@@ -28,3 +28,10 @@ export function getToolsByCategory(category: ToolCategory): readonly AnyToolPlug
 export function getAllCategories(): readonly ToolCategory[] {
   return [...new Set(published.map((tool) => tool.config.category))]
 }
+
+/** Real tools sorted by actual publish date, most recent first (`design/11-homepage.md`) — never a fabricated ranking. */
+export function getRecentlyAddedTools(limit = 5): readonly AnyToolPlugin[] {
+  return [...published]
+    .sort((a, b) => b.config.publishedAt.localeCompare(a.config.publishedAt))
+    .slice(0, limit)
+}

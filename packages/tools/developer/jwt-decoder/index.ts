@@ -18,6 +18,7 @@ export default defineTool({
     serverSide: false,
     tier: 'silver',
     status: 'published',
+    publishedAt: '2026-07-24',
     flags: { ads: true, showRelated: true, showArticle: true, showFaq: true },
   },
   inputSchema: jwtDecoderSchema,
