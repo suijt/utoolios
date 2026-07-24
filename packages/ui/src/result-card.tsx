@@ -24,9 +24,15 @@ export function ResultCard({ lines }: { lines: readonly ResultLine[] }) {
       {rest.length > 0 && (
         <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {rest.map((line) => (
-            <div key={line.label}>
+            <div key={line.label} className={line.wide ? 'col-span-full' : undefined}>
               <dt className="text-sm opacity-80">{line.label}</dt>
-              <dd className="font-semibold">{line.value}</dd>
+              {line.wide ? (
+                <dd className="mt-1 max-h-64 overflow-auto whitespace-pre-wrap break-all rounded-lg bg-black/10 p-3 font-mono text-xs leading-relaxed dark:bg-black/20">
+                  {line.value}
+                </dd>
+              ) : (
+                <dd className="font-semibold">{line.value}</dd>
+              )}
             </div>
           ))}
         </dl>

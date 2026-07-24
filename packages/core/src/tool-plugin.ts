@@ -69,6 +69,8 @@ export interface ResultLine {
   readonly label: string
   readonly value: string
   readonly primary?: boolean
+  /** Render full-width in a scrollable monospace block — for code/text-blob output (JSON, JWT, Base64). */
+  readonly wide?: boolean
 }
 
 /** A worked example: shown to users AND reusable as a test fixture (docs/13 §3.4). */
