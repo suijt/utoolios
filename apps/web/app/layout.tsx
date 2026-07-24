@@ -101,7 +101,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const categories = getAllCategories()
 
   return (
-    <html lang="en" className={`${inter.className} ${GeistSans.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.className} ${GeistSans.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>

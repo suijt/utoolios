@@ -113,6 +113,7 @@ export default function HomePage() {
                   width={120}
                   height={132}
                   className="absolute -bottom-2 left-6 drop-shadow-xl"
+                  style={{ height: 'auto' }}
                   priority
                 />
 
