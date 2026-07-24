@@ -30,7 +30,7 @@ export const tailwindPreset: Partial<Config> = {
         },
       },
       borderRadius: {
-        card: '0.75rem',
+        card: '1rem',
       },
     },
   },

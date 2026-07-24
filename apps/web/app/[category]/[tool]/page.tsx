@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Container } from '@utoolios/ui'
+import { AdSlot, Container, Tabs, type TabItem } from '@utoolios/ui'
 import { getAllTools, getToolById } from '@utoolios/tools'
 import { breadcrumbs, buildJsonLd, buildMetadata, toolPath } from '@utoolios/engine'
+import { CategoryIcon } from '@/components/category-icon'
 import { ToolRunner } from '@/components/tool-runner'
 
 /**
- * THE single page that renders EVERY tool (docs/06 §6, docs/13). Adding a tool
- * folder makes a new route appear here with full SEO — zero changes to this file.
+ * THE single page that renders EVERY tool (docs/06 §6, docs/13, DESIGN-SPEC §6.3).
+ * Adding a tool folder makes a new route appear here with full SEO — zero changes
+ * to this file.
  */
 
 interface PageParams {
@@ -51,6 +53,68 @@ export default function ToolPage({ params }: { params: PageParams }) {
     .map((id) => getToolById(id))
     .filter((value): value is NonNullable<typeof value> => value !== undefined)
 
+  const tabs: TabItem[] = [
+    {
+      id: 'calculator',
+      label: 'Calculator',
+      content: (
+        <div className="grid gap-6">
+          <ToolRunner toolId={tool.config.id} />
+          {tool.config.flags.ads && <AdSlot />}
+        </div>
+      ),
+    },
+  ]
+
+  if (tool.content?.explanation) {
+    tabs.push({
+      id: 'formula',
+      label: 'Formula',
+      content: <p className="text-gray-600 dark:text-gray-300">{tool.content.explanation}</p>,
+    })
+  }
+
+  if (tool.examples.length > 0) {
+    tabs.push({
+      id: 'examples',
+      label: 'Examples',
+      content: (
+        <ul className="space-y-4">
+          {tool.examples.map((example) => (
+            <li key={example.label} className="rounded-card border border-gray-200 p-4 dark:border-gray-700">
+              <p className="font-semibold">{example.label}</p>
+              <dl className="mt-2 grid gap-1 text-sm text-gray-600 dark:text-gray-300">
+                {Object.entries(example.input as Record<string, unknown>).map(([key, value]) => (
+                  <div key={key} className="flex gap-2">
+                    <dt className="text-gray-400">{key}:</dt>
+                    <dd>{String(value)}</dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          ))}
+        </ul>
+      ),
+    })
+  }
+
+  if (tool.config.flags.showFaq && tool.content?.faq && tool.content.faq.length > 0) {
+    tabs.push({
+      id: 'faq',
+      label: 'FAQ',
+      content: (
+        <div className="space-y-3">
+          {tool.content.faq.map((item) => (
+            <details key={item.q} className="rounded-card border border-gray-200 p-4 dark:border-gray-700">
+              <summary className="cursor-pointer font-semibold">{item.q}</summary>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      ),
+    })
+  }
+
   return (
     <Container>
       <script
@@ -73,22 +137,18 @@ export default function ToolPage({ params }: { params: PageParams }) {
         ))}
       </nav>
 
-      <h1 className="mt-3 text-3xl font-bold tracking-tight">{tool.config.title}</h1>
+      <div className="mt-3 flex items-center gap-3">
+        <CategoryIcon category={tool.config.category} size={40} />
+        <h1 className="text-3xl font-bold tracking-tight">{tool.config.title}</h1>
+      </div>
       <p className="mt-2 text-gray-500">{tool.config.summary}</p>
 
       <div className="mt-6">
-        <ToolRunner toolId={tool.config.id} />
+        <Tabs items={tabs} />
       </div>
 
-      {tool.content?.explanation && (
-        <section className="mt-8">
-          <h2 className="text-lg font-semibold">How it works</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">{tool.content.explanation}</p>
-        </section>
-      )}
-
       {tool.content?.assumptions && tool.content.assumptions.length > 0 && (
-        <section className="mt-6">
+        <section className="mt-8">
           <h2 className="text-lg font-semibold">Assumptions</h2>
           <ul className="mt-2 list-inside list-disc text-gray-600 dark:text-gray-300">
             {tool.content.assumptions.map((item) => (
@@ -118,20 +178,6 @@ export default function ToolPage({ params }: { params: PageParams }) {
 
       {tool.config.flags.showArticle && tool.content?.article && (
         <article className="mt-10">{renderArticle(tool.content.article)}</article>
-      )}
-
-      {tool.config.flags.showFaq && tool.content?.faq && tool.content.faq.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-xl font-bold">Frequently asked questions</h2>
-          <dl className="mt-4 space-y-4">
-            {tool.content.faq.map((item) => (
-              <div key={item.q}>
-                <dt className="font-semibold">{item.q}</dt>
-                <dd className="mt-1 text-gray-600 dark:text-gray-300">{item.a}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
       )}
     </Container>
   )

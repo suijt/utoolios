@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
 
         <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80">
-          <Container>
+          <Container wide>
             <div className="flex h-16 items-center justify-between gap-4">
               <Link href="/" aria-label="UToolios home">
                 <Logo />
@@ -61,7 +61,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
 
         <footer className="mt-16 border-t border-gray-200 py-10 dark:border-gray-700">
-          <Container>
+          <Container wide>
             <Logo />
             <p className="mt-3 text-sm text-gray-500">
               Thousands of free online tools. One trusted platform.

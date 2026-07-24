@@ -1,11 +1,14 @@
 import Link from 'next/link'
-import { Container } from '@utoolios/ui'
+import { CategoryTile, Container, StatBar, ToolCard } from '@utoolios/ui'
 import { getAllCategories, getAllTools, getToolsByCategory } from '@utoolios/tools'
-import { toolPath } from '@utoolios/engine'
+import { toolPath, categoryPath } from '@utoolios/engine'
 import { CategoryIcon, categoryLabel } from '@/components/category-icon'
 import { ToolSearch } from '@/components/tool-search'
 
-/** Homepage (docs/02 anatomy, brand mockup). Everything is generated from the registry. */
+/**
+ * Homepage (DESIGN-SPEC §6.2, brand mockup). Everything is generated from the
+ * registry — honesty rule (§0): no fake ratings/usage, real counts only.
+ */
 export default function HomePage() {
   const categories = getAllCategories()
   const allTools = getAllTools()
@@ -17,7 +20,7 @@ export default function HomePage() {
   }))
 
   return (
-    <Container>
+    <Container wide>
       {/* Hero */}
       <section className="text-center">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -28,54 +31,52 @@ export default function HomePage() {
           .
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-500">
-          Thousands of free online tools to calculate, convert, and simplify your everyday life —
-          fast, simple, and secure.
+          Calculate, convert, and simplify your everyday life with our free online tools — fast,
+          simple, and secure.
         </p>
+
         <ToolSearch items={searchItems} />
 
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
-          <li className="font-semibold">
-            🌱 <span className="text-primary dark:text-secondary">Free</span> Forever
-          </li>
-          <li className="font-semibold">🔒 Secure &amp; Private</li>
-          <li className="font-semibold">🙅 No Signup Required</li>
-          <li className="font-semibold">⚡ Instant Results</li>
-        </ul>
+        {allTools.length > 0 && (
+          <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm text-gray-500">
+            <span className="font-medium">🔥 Popular:</span>
+            {allTools.map((tool) => (
+              <Link
+                key={tool.config.id}
+                href={toolPath(tool)}
+                className="rounded-full border border-gray-200 px-3 py-1 hover:border-primary hover:text-primary dark:border-gray-700 dark:hover:text-secondary"
+              >
+                {tool.config.title}
+              </Link>
+            ))}
+          </p>
+        )}
+
+        <div className="mt-10">
+          <StatBar
+            items={[
+              { icon: <WrenchIcon />, value: String(allTools.length), label: 'Free Tools' },
+              { icon: <HeartIcon />, value: '100%', label: 'Free Forever' },
+              { icon: <UserCheckIcon />, value: 'No Signup', label: 'Required' },
+              { icon: <ShieldIcon />, value: 'Secure', label: '& Private' },
+            ]}
+          />
+        </div>
       </section>
 
       {/* Categories */}
       <section id="categories" className="mt-16">
         <h2 className="text-2xl font-bold">Browse by category</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {categories.map((category) => {
-            const tools = getToolsByCategory(category)
-            return (
-              <div
-                key={category}
-                className="rounded-card border border-gray-200 p-5 dark:border-gray-700"
-              >
-                <div className="flex items-center gap-3">
-                  <CategoryIcon category={category} />
-                  <div>
-                    <h3 className="font-semibold">{categoryLabel(category)}</h3>
-                    <p className="text-sm text-gray-500">{tools.length} tool{tools.length === 1 ? '' : 's'}</p>
-                  </div>
-                </div>
-                <ul className="mt-4 space-y-1">
-                  {tools.map((tool) => (
-                    <li key={tool.config.id}>
-                      <Link
-                        href={toolPath(tool)}
-                        className="text-sm text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-secondary"
-                      >
-                        {tool.config.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )
-          })}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category) => (
+            <CategoryTile
+              key={category}
+              href={categoryPath(category)}
+              icon={<CategoryIcon category={category} size={48} />}
+              label={categoryLabel(category)}
+              count={getToolsByCategory(category).length}
+            />
+          ))}
         </div>
       </section>
 
@@ -84,25 +85,51 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold">Popular tools</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {allTools.map((tool) => (
-            <Link
+            <ToolCard
               key={tool.config.id}
               href={toolPath(tool)}
-              className="block rounded-card border border-gray-200 p-5 transition hover:border-primary hover:shadow-md dark:border-gray-700"
-            >
-              <div className="flex items-center gap-3">
-                <CategoryIcon category={tool.config.category} size={36} />
-                <div>
-                  <span className="font-semibold">{tool.config.title}</span>
-                  <span className="block text-xs uppercase tracking-wide text-gray-400">
-                    {categoryLabel(tool.config.category)}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-gray-500">{tool.config.summary}</p>
-            </Link>
+              icon={<CategoryIcon category={tool.config.category} size={40} />}
+              title={tool.config.title}
+              categoryLabel={categoryLabel(tool.config.category)}
+              summary={tool.config.summary}
+            />
           ))}
         </div>
       </section>
     </Container>
+  )
+}
+
+function WrenchIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14.7 6.3a4 4 0 0 0-5.6 5.6L3 18v3h3l6.1-6.1a4 4 0 0 0 5.6-5.6l-2.8 2.8-2-2z" />
+    </svg>
+  )
+}
+
+function HeartIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z" />
+    </svg>
+  )
+}
+
+function UserCheckIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="9" cy="8" r="4" />
+      <path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 4.2 1.7" />
+      <path d="M17 12l2 2 4-4" />
+    </svg>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z" />
+    </svg>
   )
 }
