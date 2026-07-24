@@ -26,7 +26,7 @@ export function ToolSearch({ items }: { items: SearchItem[] }) {
 
   return (
     <form
-      className="relative mx-auto mt-8 max-w-xl"
+      className="relative mt-8 max-w-xl"
       onSubmit={(event) => {
         event.preventDefault()
         if (matches[0]) router.push(matches[0].path)
