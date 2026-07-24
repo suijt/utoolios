@@ -22,9 +22,9 @@ Design starts at **390px** (a common small-phone reference width) and scales up.
 
 ## 2. Containers
 
-Two container widths (unchanged pattern from v1, `packages/ui/src/container.tsx`):
+Two container widths (`packages/ui/src/container.tsx`):
 
-- **Wide** (`max-w-5xl`): homepage, header, footer.
+- **Wide** (`max-w-7xl`, 1280px): homepage, header, footer. **Widened from `max-w-5xl`** per explicit v3 spec — gives the two-column homepage (`11-homepage.md`) enough room for the sidebar without cramping the main column.
 - **Default** (`max-w-3xl`): tool pages, category pages, article content — anything meant to be read, not browsed.
 
 Gutter: `px-4` below `sm`, `px-6` at `sm` and above.

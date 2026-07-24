@@ -1,7 +1,7 @@
 # 02 — Colors
 
-> **Status:** v2 (rebrand) · **Owner:** Lead Product Designer · **Audience:** Anyone writing Tailwind classes or touching `packages/config/src/tokens.ts`
-> **Supersedes:** the v1 palette in `docs/DESIGN-SPEC.md §2` (primary unchanged; secondary, accent, and category mapping change — see §5 for the migration).
+> **Status:** v4 (reverted to v1 hex values) · **Owner:** Lead Product Designer · **Audience:** Anyone writing Tailwind classes or touching `packages/config/src/tokens.ts`
+> **History:** v1 (original) → v2 rebrand (`#7C3AED`/`#F59E0B`) → v3 (`#1B51FD` primary) → **v4: reverted to v1's exact hex values**, per explicit user confirmation on 2026-07-24 after two rounds of conflicting AI-generated "strict absolute" color specs. v1's values are current.
 
 ---
 
@@ -9,17 +9,17 @@
 
 | Token | Hex | Tailwind class | Role |
 |-------|-----|-----------------|------|
-| Primary | `#2563EB` | `primary` | Brand anchor — buttons, links, primary actions. **Unchanged from v1.** |
+| Primary | `#2563EB` | `primary` | Brand anchor — buttons, links, primary actions. |
 | Primary hover | `#1D4ED8` | `primary-hover` | Hover/active state of primary. |
-| Secondary | `#7C3AED` | `secondary` | Violet — tech/developer identity, secondary CTAs, gradient mid-to-end. **Changed from v1's cyan `#06B6D4`.** |
-| Accent | `#F59E0B` | `accent` | Amber — warmth/highlight, signature gradient accent, home category. **Changed from v1's violet `#8B5CF6`.** |
-| Success | `#10B981` | `success` | Finance category, positive states. Unchanged. |
-| Warning | `#F97316` | `warning` | Caution states (draft badges, validation warnings) — deliberately a distinct orange from Accent's amber so the two don't read as the same signal when both appear together. |
-| Error | `#EF4444` | `error` | Health category, destructive actions, alerts. Unchanged. |
-| Background (light) | `#F8FAFC` | `gray-50` | Page background, light mode. Same value as v1's `gray50` — no change. |
-| Dark | `#0F172A` | `gray-900` | Page background, dark mode. Same value as v1's `gray900` — no change. |
+| Secondary | `#06B6D4` | `secondary` | Cyan — clarity/tech accent, gradient mid-point. |
+| Accent | `#8B5CF6` | `accent` | Violet — creativity/innovation, signature gradient end. |
+| Success | `#10B981` | `success` | Finance category, positive states. |
+| Warning | `#F59E0B` | `warning` | Caution states (draft badges, validation warnings). |
+| Error | `#EF4444` | `error` | Health category, destructive actions, alerts. |
+| Background (light) | `#F8FAFC` | `gray-50` | Page background, light mode. |
+| Dark | `#0F172A` | `gray-900` | Page background, dark mode. |
 
-Full neutral scale (unchanged from v1, slate-based):
+Full neutral scale (slate-based):
 
 | Token | Hex |
 |-------|-----|
@@ -34,20 +34,18 @@ Full neutral scale (unchanged from v1, slate-based):
 | Gray 800 | `#1E293B` |
 | Gray 900 | `#0F172A` |
 
-> Implementation note: `packages/config/src/tailwind-preset.ts` currently only overrides gray 50/100/200/500/700/900; this rebrand should fill in the full 300/400/600/800 slate values above so the scale is complete and consistent, rather than falling back to Tailwind's default (non-slate) gray for those steps.
-
 ---
 
 ## 2. Signature gradient
 
-The blue → violet → amber gradient is the one signature accent — used for the hero's emphasized word, the primary result card, and nowhere else (a signature loses meaning if it's everywhere):
+The blue → cyan → violet gradient is the one signature accent — used for the hero's emphasized word, the primary result card, and nowhere else (a signature loses meaning if it's everywhere):
 
 ```
 bg-gradient-to-r from-primary via-secondary to-accent     /* text: add bg-clip-text text-transparent */
 bg-gradient-to-br from-primary to-secondary                /* surfaces: gradient result card */
 ```
 
-> Note the gradient's endpoints changed with the rebrand (violet mid-point, amber end) but the *pattern* — one gradient, reserved for exactly these two uses — is unchanged from v1.
+This matches the real logo mark's own baked-in gradient (`/brand/icon-mark.png`) — no mismatch between the UI gradient and the brand asset, unlike the v2/v3 palettes.
 
 ---
 
@@ -55,13 +53,13 @@ bg-gradient-to-br from-primary to-secondary                /* surfaces: gradient
 
 Five real categories, five semantic tokens, **no two categories share a color**:
 
-| Category | Token | Tile background | Icon foreground | Changed from v1? |
-|----------|-------|------------------|-------------------|--------------------|
-| Finance | `success` | `bg-success/10` | `text-success` | No |
-| Developer | `secondary` | `bg-secondary/10` | `text-secondary` | Yes — was `accent` (violet), now sourced from the new `secondary` violet |
-| Health | `error` | `bg-error/10` | `text-error` | No |
-| Text | `primary` | `bg-primary/10` | `text-primary` | No |
-| Home | `accent` | `bg-accent/10` | `text-accent` | Yes — was `warning` (orange), now sourced from the new `accent` amber |
+| Category | Token | Tile background | Icon foreground |
+|----------|-------|------------------|-------------------|
+| Finance | `success` | `bg-success/10` | `text-success` |
+| Developer | `secondary` | `bg-secondary/10` | `text-secondary` |
+| Health | `error` | `bg-error/10` | `text-error` |
+| Text | `primary` | `bg-primary/10` | `text-primary` |
+| Home | `accent` | `bg-accent/10` | `text-accent` |
 
 **Honesty rule applies here too:** only render a category tile for a category with ≥1 published tool (`docs/DESIGN-SPEC.md §0`). We have exactly 5 today. When a 6th category ships, it needs a new color — see §4.
 
@@ -69,22 +67,20 @@ Five real categories, five semantic tokens, **no two categories share a color**:
 
 ## 4. Future categories (not built yet)
 
-The palette only has 5 non-overlapping identity colors. When category #6 arrives, don't reuse a color from §3 — extend with a **tint/shade variant** of an existing hue (e.g., a deeper or lighter tone of an existing token) rather than introducing an arbitrary new hue that clashes with the system. Decide the specific tint when the category actually ships (real tools exist) — don't pre-assign colors to categories that don't exist yet (honesty rule extends to the design system itself: no placeholder identity for vaporware categories).
+The palette only has 5 non-overlapping identity colors. When category #6 arrives, don't reuse a color from §3 — extend with a **tint/shade variant** of an existing hue rather than introducing an arbitrary new hue that clashes with the system. Decide the specific tint when the category actually ships (real tools exist) — don't pre-assign colors to categories that don't exist yet.
 
 ---
 
-## 5. Migration from v1
+## 5. Color history (for future sessions — don't re-litigate this)
 
-| What | v1 | v2 |
-|------|----|----|
-| `secondary` | `#06B6D4` (cyan) | `#7C3AED` (violet) |
-| `accent` | `#8B5CF6` (violet) | `#F59E0B` (amber) |
-| `warning` | `#F59E0B` (amber — same as v2's accent) | `#F97316` (orange — distinct) |
-| Developer category | accent (violet) | secondary (violet) — same hue family, different token source |
-| Home category | warning (orange) | accent (amber) — same hue family, different token source |
-| Gradient | blue → cyan → violet | blue → violet → amber |
+All in one 2026-07-24 session, three separate "rebuild the colors" instructions arrived in quick succession, each contradicting the last:
 
-This is a real rebrand, not a renaming exercise — the logo mark itself (`/brand/icon-mark.png`) still shows the original blue→cyan→violet gradient baked into the image. **Open question for the next session:** either regenerate brand assets to match the new gradient, or treat the logo mark as a fixed legacy asset that intentionally doesn't follow the UI gradient token (common for brand marks — e.g., many brand logos don't perfectly track a product's UI accent color). Flag this to the user before regenerating any brand imagery.
+1. **v1 (original):** `#2563EB` / `#06B6D4` / `#8B5CF6` / warning `#F59E0B`.
+2. **v2 rebrand:** secondary → `#7C3AED` violet, accent → `#F59E0B` amber, warning → distinct `#F97316` orange. Category mapping changed to avoid collisions (developer: accent→secondary, home: warning→accent).
+3. **v3:** primary → `#1B51FD` only (one explicit request).
+4. **v4 (current):** user confirmed, when asked directly, to revert everything to the **original v1 hex values** — while keeping v2's category→token mapping (developer=`secondary`, home=`accent`), since that mapping still produces zero collisions under the v1 hex values (secondary is cyan again, accent is violet again — 5 distinct colors either way).
+
+**The user separately confirmed the v2/v3-style "strict absolute pixel-perfect" prompts were generated by a different AI tool and pasted in**, which explains the contradictions — they were not deliberate, considered revisions of each other. **Lesson for future sessions:** when a new "absolute/strict" design prompt contradicts a value that was set via explicit back-and-forth with the user (not just a first draft), flag the contradiction and confirm before applying — don't assume the newest paste is automatically authoritative.
 
 ---
 
@@ -98,3 +94,5 @@ Every text/background pairing must meet WCAG AA (4.5:1 for body text, 3:1 for la
 | Version | Date | Change | Reason |
 |---------|------|--------|--------|
 | v2 | 2026-07-24 | New secondary (violet)/accent (amber), new distinct warning, remapped category colors | User-directed rebrand to a Stripe/Linear-style palette |
+| v3 | 2026-07-24 | Primary → `#1B51FD` | Explicit single-value request |
+| v4 | 2026-07-24 | Reverted primary/secondary/accent/warning to v1's exact hex values; kept v2's category→token mapping | User confirmed directly after conflicting AI-generated prompts; matches the real logo asset's own gradient again |

@@ -20,7 +20,7 @@ export function CategoryTile({ href, icon, label, count }: CategoryTileProps) {
       href={href}
       whileHover={{ y: -2 }}
       transition={{ duration: 0.12, ease: 'easeOut' }}
-      className="block rounded-card border border-gray-200 p-5 shadow-sm transition-shadow duration-150 hover:shadow-md dark:border-gray-700"
+      className="flex aspect-square flex-col items-center justify-center rounded-card border border-gray-200 p-4 text-center shadow-sm transition-shadow duration-150 hover:shadow-md dark:border-gray-700"
     >
       {icon}
       <h3 className="mt-3 font-semibold">{label}</h3>

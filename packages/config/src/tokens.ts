@@ -2,8 +2,10 @@
  * UToolios design tokens — the single source of visual truth (docs/10 §6,
  * `design/02-colors.md`).
  *
- * v2 rebrand (2026-07-24): secondary/accent changed, warning is now distinct
- * from accent. See `design/02-colors.md §5` for the full migration table.
+ * Color history (2026-07-24): v1 (#2563EB/#06B6D4/#8B5CF6) -> v2 rebrand
+ * (#7C3AED/#F59E0B) -> v3 (#1B51FD) -> reverted back to v1 values, per
+ * explicit user confirmation after conflicting AI-generated design prompts.
+ * These v1 values are the current source of truth — see `design/02-colors.md §5`.
  *
  * RULE (docs/10): tools consume these tokens, never arbitrary values.
  * Change the brand here in ONE place and all 1000+ tools update.
@@ -13,12 +15,12 @@ export const colors = {
   // Brand
   primary: '#2563EB', // Trust / reliability (blue-600)
   primaryHover: '#1D4ED8', // Hover / active (blue-700)
-  secondary: '#7C3AED', // Tech / developer identity (violet-600)
-  accent: '#F59E0B', // Warmth / signature highlight (amber-500)
+  secondary: '#06B6D4', // Clarity / tech (cyan-500)
+  accent: '#8B5CF6', // Creativity / innovation (violet-500)
 
   // State
   success: '#10B981', // Growth / progress (emerald-500)
-  warning: '#F97316', // Caution (orange-500) — distinct from accent's amber
+  warning: '#F59E0B', // Highlights (amber-500)
   error: '#EF4444', // Alerts (red-500)
 
   // Neutral (slate scale, full)

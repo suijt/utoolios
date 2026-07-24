@@ -43,16 +43,17 @@ export default function HomePage() {
           {/* Hero */}
           <section className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-6">
             <div>
-              <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
-                Find the right tool for{' '}
+              <p className="text-sm font-medium text-primary">100% Free &middot; No Sign Up &middot; Always</p>
+              <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                Thousands of free tools for{' '}
                 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                  any task
-                </span>
-                .
+                  every
+                </span>{' '}
+                task.
               </h1>
               <p className="mt-4 max-w-xl text-lg text-gray-500">
-                Calculate, convert, and simplify your everyday life with our free online tools —
-                fast, simple, and secure.
+                Calculate, convert, and simplify your everyday life with our powerful online
+                tools.
               </p>
 
               <ToolSearch items={searchItems} />
@@ -125,7 +126,7 @@ export default function HomePage() {
           {/* Categories */}
           <section id="categories" className="mt-16">
             <h2 className="text-2xl font-bold">Browse by category</h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
               {categories.map((category) => (
                 <CategoryTile
                   key={category}
@@ -141,7 +142,7 @@ export default function HomePage() {
           {/* Popular tools */}
           <section className="mt-16">
             <h2 className="text-2xl font-bold">Popular tools</h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {allTools.map((tool) => (
                 <ToolCard
                   key={tool.config.id}
