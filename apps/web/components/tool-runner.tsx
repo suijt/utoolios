@@ -44,7 +44,7 @@ export function ToolRunner({ toolId }: { toolId: string }) {
                   id={inputId}
                   value={values[field.name] ?? ''}
                   onChange={(event) => update(field.name, event.target.value)}
-                  className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-800"
+                  className="mt-1 w-full rounded-input border border-gray-300 bg-white px-4 py-2.5 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 dark:border-gray-600 dark:bg-gray-800"
                 >
                   {(field.options ?? []).map((option) => (
                     <option key={option.value} value={option.value}>
@@ -63,7 +63,7 @@ export function ToolRunner({ toolId }: { toolId: string }) {
                   step={field.step}
                   placeholder={field.placeholder}
                   onChange={(event) => update(field.name, event.target.value)}
-                  className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-800"
+                  className="mt-1 w-full rounded-input border border-gray-300 bg-white px-4 py-2.5 focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 dark:border-gray-600 dark:bg-gray-800"
                 />
               )}
             </div>

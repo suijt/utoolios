@@ -15,7 +15,7 @@ export function StatBar({ items }: { items: readonly StatItem[] }) {
           <div className="flex justify-center text-primary dark:text-secondary" aria-hidden="true">
             {item.icon}
           </div>
-          <div className="mt-1 font-bold">{item.value}</div>
+          <div className="mt-1 font-display font-bold">{item.value}</div>
           <div className="text-sm text-gray-500">{item.label}</div>
         </div>
       ))}

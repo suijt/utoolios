@@ -1,5 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { motion } from 'framer-motion'
+
+const MotionLink = motion.create(Link)
 
 export interface ToolCardProps {
   readonly href: string
@@ -10,14 +15,16 @@ export interface ToolCardProps {
 }
 
 /**
- * Tool card for popular/listing grids (DESIGN-SPEC §5.4). No rating stars, no
- * "used by" counts — honesty rule (§0): we have 0 users and can't fabricate them.
+ * Tool card for popular/listing grids (`design/07-cards.md`). No rating stars,
+ * no "used by" counts — honesty rule: we have 0 users and can't fabricate them.
  */
 export function ToolCard({ href, icon, title, categoryLabel, summary }: ToolCardProps) {
   return (
-    <Link
+    <MotionLink
       href={href}
-      className="block rounded-card border border-gray-200 p-5 transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.12, ease: 'easeOut' }}
+      className="block rounded-card border border-gray-200 p-5 shadow-sm transition-shadow duration-150 hover:shadow-md dark:border-gray-700"
     >
       <div className="flex items-center gap-3">
         {icon}
@@ -27,6 +34,6 @@ export function ToolCard({ href, icon, title, categoryLabel, summary }: ToolCard
         </div>
       </div>
       <p className="mt-3 text-sm text-gray-500">{summary}</p>
-    </Link>
+    </MotionLink>
   )
 }

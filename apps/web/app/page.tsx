@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Heart, ShieldCheck, UserCheck, Wrench } from 'lucide-react'
 import type { ToolCategory } from '@utoolios/core'
 import { CategoryTile, Container, StatBar, ToolCard } from '@utoolios/ui'
 import { getAllCategories, getAllTools, getToolsByCategory } from '@utoolios/tools'
@@ -36,7 +37,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-8">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+          <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
             Find the right tool for{' '}
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               any task
@@ -88,10 +89,10 @@ export default function HomePage() {
       <div className="mt-10">
         <StatBar
           items={[
-            { icon: <WrenchIcon />, value: String(allTools.length), label: 'Free Tools' },
-            { icon: <HeartIcon />, value: '100%', label: 'Free Forever' },
-            { icon: <UserCheckIcon />, value: 'No Signup', label: 'Required' },
-            { icon: <ShieldIcon />, value: 'Secure', label: '& Private' },
+            { icon: <Wrench size={24} strokeWidth={2} />, value: String(allTools.length), label: 'Free Tools' },
+            { icon: <Heart size={24} strokeWidth={2} />, value: '100%', label: 'Free Forever' },
+            { icon: <UserCheck size={24} strokeWidth={2} />, value: 'No Signup', label: 'Required' },
+            { icon: <ShieldCheck size={24} strokeWidth={2} />, value: 'Secure', label: '& Private' },
           ]}
         />
       </div>
@@ -129,39 +130,5 @@ export default function HomePage() {
         </div>
       </section>
     </Container>
-  )
-}
-
-function WrenchIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M14.7 6.3a4 4 0 0 0-5.6 5.6L3 18v3h3l6.1-6.1a4 4 0 0 0 5.6-5.6l-2.8 2.8-2-2z" />
-    </svg>
-  )
-}
-
-function HeartIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z" />
-    </svg>
-  )
-}
-
-function UserCheckIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="9" cy="8" r="4" />
-      <path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 4.2 1.7" />
-      <path d="M17 12l2 2 4-4" />
-    </svg>
-  )
-}
-
-function ShieldIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6z" />
-    </svg>
   )
 }

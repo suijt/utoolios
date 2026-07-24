@@ -13,7 +13,7 @@ export function ResultCard({ lines }: { lines: readonly ResultLine[] }) {
   return (
     <div
       aria-live="polite"
-      className="rounded-card bg-gradient-to-br from-primary to-accent p-6 text-white"
+      className="rounded-card bg-gradient-to-br from-primary to-secondary p-6 text-white"
     >
       {primary && (
         <div>

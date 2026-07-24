@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
+import { Search } from 'lucide-react'
 import { Button } from '@utoolios/ui'
 
 export interface SearchItem {
@@ -35,21 +36,12 @@ export function ToolSearch({ items }: { items: SearchItem[] }) {
       <label htmlFor="tool-search" className="sr-only">
         Search tools
       </label>
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      <Search
+        size={20}
+        strokeWidth={2}
         aria-hidden="true"
         className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"
-      >
-        <circle cx="11" cy="11" r="7" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
+      />
       <input
         id="tool-search"
         type="search"

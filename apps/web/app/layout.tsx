@@ -1,13 +1,25 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { Inter } from 'next/font/google'
+import { Inter, JetBrains_Mono } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
 import { Container } from '@utoolios/ui'
 import { Logo } from '@/components/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { MobileNav } from '@/components/mobile-nav'
 import './globals.css'
 
+/**
+ * Three fonts, three jobs (`design/03-typography.md`): Inter is the ambient
+ * default everywhere; Geist is reserved for the hero headline + stat numbers
+ * only; JetBrains Mono is for code/JSON/JWT contexts.
+ */
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://utoolios.com'),
@@ -23,7 +35,7 @@ const themeInit = `(function(){try{var t=localStorage.getItem('theme');var d=t?t
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${inter.className} ${GeistSans.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
@@ -56,11 +68,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </Container>
         </header>
 
-        <main id="main" className="py-12">
+        <main id="main" className="py-12 pb-24 md:pb-12">
           {children}
         </main>
 
-        <footer className="mt-16 border-t border-gray-200 py-10 dark:border-gray-700">
+        <footer className="mb-16 mt-16 border-t border-gray-200 py-10 dark:border-gray-700 md:mb-0">
           <Container wide>
             <Logo />
             <p className="mt-3 text-sm text-gray-500">
@@ -75,6 +87,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </ul>
           </Container>
         </footer>
+
+        <MobileNav />
       </body>
     </html>
   )
