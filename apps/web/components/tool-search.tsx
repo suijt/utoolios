@@ -37,10 +37,10 @@ export function ToolSearch({ items }: { items: SearchItem[] }) {
         Search tools
       </label>
       <Search
-        size={20}
+        size={18}
         strokeWidth={2}
         aria-hidden="true"
-        className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"
+        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
       />
       <input
         id="tool-search"
@@ -48,9 +48,12 @@ export function ToolSearch({ items }: { items: SearchItem[] }) {
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="Search tools… (e.g. mortgage calculator, JSON formatter)"
-        className="w-full rounded-full border border-gray-300 bg-white py-4 pl-12 pr-4 text-base shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 dark:border-gray-600 dark:bg-gray-800 sm:pr-32"
+        className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-base shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-800 sm:pr-32"
       />
-      <Button type="submit" className="absolute right-1.5 top-1.5 hidden sm:inline-flex">
+      <Button
+        type="submit"
+        className="absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-lg px-6 py-2.5 sm:inline-flex"
+      >
         Search
       </Button>
       {matches.length > 0 && (

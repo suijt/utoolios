@@ -3,7 +3,21 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { GeistSans } from 'geist/font/sans'
-import { Gift, Lock, RefreshCw, Search, Smartphone, Target, UserCheck } from 'lucide-react'
+import {
+  ChevronDown,
+  Facebook,
+  Gift,
+  Heart,
+  Instagram,
+  Lock,
+  RefreshCw,
+  Search,
+  Smartphone,
+  Target,
+  Twitter,
+  UserCheck,
+  Youtube,
+} from 'lucide-react'
 import { Container } from '@utoolios/ui'
 import { getAllCategories } from '@utoolios/tools'
 import { categoryPath } from '@utoolios/engine'
@@ -35,6 +49,42 @@ const VALUE_PROPS = [
   { icon: RefreshCw, title: 'Regular Updates', description: 'New tools added frequently.' },
 ]
 
+/**
+ * Primary nav (`design/10-navigation.md`). Real destinations map to real
+ * routes; the browse-oriented links point at the on-page category/tool
+ * sections rather than inventing pages that don't exist yet.
+ */
+const NAV_LINKS: { label: string; href: string; caret?: boolean }[] = [
+  { label: 'Tools', href: '/#popular', caret: true },
+  { label: 'Categories', href: '/#categories' },
+  { label: 'Calculators', href: '/finance' },
+  { label: 'Converters', href: '/developer' },
+  { label: 'Resources', href: '/#value-props', caret: true },
+  { label: 'Blog', href: '/#recently-added' },
+  { label: 'About', href: '/#value-props' },
+]
+
+const RESOURCE_LINKS = [
+  { label: 'Blog', href: '/#recently-added' },
+  { label: 'Guides', href: '/#value-props' },
+  { label: 'API', href: '/#value-props' },
+  { label: 'FAQs', href: '/#value-props' },
+]
+
+const COMPANY_LINKS = [
+  { label: 'About Us', href: '/#value-props' },
+  { label: 'Privacy Policy', href: '/#value-props' },
+  { label: 'Terms of Use', href: '/#value-props' },
+  { label: 'Disclaimer', href: '/#value-props' },
+]
+
+const SOCIAL_LINKS = [
+  { label: 'Twitter', icon: Twitter, href: '#', bg: 'bg-[#1DA1F2]' },
+  { label: 'Facebook', icon: Facebook, href: '#', bg: 'bg-[#1877F2]' },
+  { label: 'Instagram', icon: Instagram, href: '#', bg: 'bg-[#E4405F]' },
+  { label: 'YouTube', icon: Youtube, href: '#', bg: 'bg-[#FF0000]' },
+]
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://utoolios.com'),
   title: {
@@ -51,7 +101,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const categories = getAllCategories()
 
   return (
-    <html lang="en" className={`${inter.className} ${GeistSans.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.className} ${GeistSans.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
@@ -66,26 +120,63 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur dark:border-gray-700 dark:bg-gray-900/80">
           <Container wide>
             <div className="flex h-16 items-center justify-between gap-4">
-              <Link href="/" aria-label="UToolios home">
+              {/* Left: logo */}
+              <Link href="/" aria-label="UToolios home" className="shrink-0">
                 <Logo />
               </Link>
-              <nav className="hidden items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-300 sm:flex">
-                <Link href="/" className="hover:text-primary dark:hover:text-secondary">
-                  Tools
-                </Link>
-                <Link href="/#categories" className="hover:text-primary dark:hover:text-secondary">
-                  Categories
-                </Link>
+
+              {/* Center: plain nav links */}
+              <nav className="hidden items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-300 lg:flex">
+                {NAV_LINKS.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="inline-flex items-center gap-1 transition-colors hover:text-primary dark:hover:text-secondary"
+                  >
+                    {link.label}
+                    {link.caret && <ChevronDown size={14} strokeWidth={2.5} aria-hidden="true" />}
+                  </Link>
+                ))}
               </nav>
-              <div className="flex items-center gap-1">
+
+              {/* Right: search, icons, primary action */}
+              <div className="flex items-center gap-2">
                 <Link
                   href="/#tool-search"
                   aria-label="Search tools"
-                  className="rounded-btn p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="hidden w-56 items-center gap-2 rounded-btn border border-gray-200 bg-gray-50 py-2 pl-3 pr-2 text-sm text-gray-400 transition-colors hover:border-primary dark:border-gray-700 dark:bg-gray-800 xl:flex"
+                >
+                  <Search size={16} strokeWidth={2} aria-hidden="true" />
+                  <span className="flex-1 truncate">Search tools…</span>
+                  <span className="grid h-6 w-6 place-items-center rounded-md bg-primary text-white">
+                    <Search size={13} strokeWidth={2.5} aria-hidden="true" />
+                  </span>
+                </Link>
+
+                <Link
+                  href="/#tool-search"
+                  aria-label="Search tools"
+                  className="rounded-btn p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 xl:hidden"
                 >
                   <Search size={20} strokeWidth={2} aria-hidden="true" />
                 </Link>
+
                 <ThemeToggle />
+
+                <Link
+                  href="/#recently-added"
+                  aria-label="Saved & new tools"
+                  className="hidden rounded-btn p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 sm:inline-flex"
+                >
+                  <Heart size={20} strokeWidth={2} aria-hidden="true" />
+                </Link>
+
+                <Link
+                  href="/#tool-search"
+                  className="ml-1 inline-flex items-center rounded-btn bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
+                >
+                  Sign In
+                </Link>
               </div>
             </div>
           </Container>
@@ -96,15 +187,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
 
         <footer className="mb-16 mt-16 border-t border-gray-200 dark:border-gray-700 md:mb-0">
-          <div className="border-b border-gray-200 bg-gray-50 py-10 dark:border-gray-700 dark:bg-gray-800/40">
+          {/* Value-prop / trust strip */}
+          <div id="value-props" className="border-b border-gray-200 bg-white py-8 dark:border-gray-700 dark:bg-gray-800/40">
             <Container wide>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-3 lg:grid-cols-6 lg:divide-x lg:divide-gray-200 dark:lg:divide-gray-700">
                 {VALUE_PROPS.map((item) => (
-                  <div key={item.title} className="flex items-start gap-2.5">
-                    <item.icon size={20} strokeWidth={2} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+                  <div key={item.title} className="flex items-start gap-3 lg:px-5 lg:first:pl-0 lg:last:pr-0">
+                    <item.icon
+                      size={22}
+                      strokeWidth={1.75}
+                      className="mt-0.5 shrink-0 text-primary"
+                      aria-hidden="true"
+                    />
                     <div>
                       <p className="text-sm font-semibold">{item.title}</p>
-                      <p className="text-xs text-gray-500">{item.description}</p>
+                      <p className="text-xs leading-snug text-gray-500">{item.description}</p>
                     </div>
                   </div>
                 ))}
@@ -112,19 +209,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </Container>
           </div>
 
-          <div className="py-10">
+          {/* Link columns */}
+          <div className="bg-white py-12 dark:bg-transparent">
             <Container wide>
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[2fr_1fr]">
+              <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
                 <div>
                   <Logo />
-                  <p className="mt-3 text-sm text-gray-500">
-                    Thousands of free online tools. One trusted platform.
+                  <p className="mt-3 max-w-xs text-sm text-gray-500">
+                    Thousands of free online tools to simplify your everyday life.
                   </p>
                 </div>
+
                 {categories.length > 0 && (
                   <div>
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-400">Categories</h3>
-                    <ul className="mt-3 space-y-2 text-sm text-gray-500">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Categories</h3>
+                    <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
                       {categories.map((category) => (
                         <li key={category}>
                           <Link href={categoryPath(category)} className="hover:text-primary dark:hover:text-secondary">
@@ -135,6 +234,52 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     </ul>
                   </div>
                 )}
+
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Resources</h3>
+                  <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
+                    {RESOURCE_LINKS.map((link) => (
+                      <li key={link.label}>
+                        <Link href={link.href} className="hover:text-primary dark:hover:text-secondary">
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Company</h3>
+                  <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
+                    {COMPANY_LINKS.map((link) => (
+                      <li key={link.label}>
+                        <Link href={link.href} className="hover:text-primary dark:hover:text-secondary">
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Bottom bar */}
+              <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-200 pt-6 dark:border-gray-700 sm:flex-row">
+                <p className="text-sm text-gray-500">
+                  &copy; {new Date().getFullYear()} UToolios. All rights reserved.
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="mr-1 text-sm font-medium text-gray-500">Connect with us</span>
+                  {SOCIAL_LINKS.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      aria-label={social.label}
+                      className={`grid h-9 w-9 place-items-center rounded-full text-white transition-opacity hover:opacity-85 ${social.bg}`}
+                    >
+                      <social.icon size={16} strokeWidth={2} aria-hidden="true" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </Container>
           </div>
