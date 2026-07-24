@@ -79,10 +79,10 @@ const COMPANY_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { label: 'Twitter', icon: Twitter, href: '#' },
-  { label: 'Facebook', icon: Facebook, href: '#' },
-  { label: 'Instagram', icon: Instagram, href: '#' },
-  { label: 'YouTube', icon: Youtube, href: '#' },
+  { label: 'Twitter', icon: Twitter, href: '#', bg: 'bg-[#1DA1F2]' },
+  { label: 'Facebook', icon: Facebook, href: '#', bg: 'bg-[#1877F2]' },
+  { label: 'Instagram', icon: Instagram, href: '#', bg: 'bg-[#E4405F]' },
+  { label: 'YouTube', icon: Youtube, href: '#', bg: 'bg-[#FF0000]' },
 ]
 
 export const metadata: Metadata = {
@@ -190,15 +190,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {/* Value-prop / trust strip */}
           <div id="value-props" className="border-b border-gray-200 bg-white py-8 dark:border-gray-700 dark:bg-gray-800/40">
             <Container wide>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-3 lg:grid-cols-6 lg:divide-x lg:divide-gray-200 dark:lg:divide-gray-700">
                 {VALUE_PROPS.map((item) => (
-                  <div key={item.title} className="flex items-start gap-2.5">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-btn bg-primary/10 text-primary">
-                      <item.icon size={18} strokeWidth={2} aria-hidden="true" />
-                    </span>
+                  <div key={item.title} className="flex items-start gap-3 lg:px-5 lg:first:pl-0 lg:last:pr-0">
+                    <item.icon
+                      size={22}
+                      strokeWidth={1.75}
+                      className="mt-0.5 shrink-0 text-primary"
+                      aria-hidden="true"
+                    />
                     <div>
                       <p className="text-sm font-semibold">{item.title}</p>
-                      <p className="text-xs text-gray-500">{item.description}</p>
+                      <p className="text-xs leading-snug text-gray-500">{item.description}</p>
                     </div>
                   </div>
                 ))}
@@ -271,7 +274,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                       key={social.label}
                       href={social.href}
                       aria-label={social.label}
-                      className="grid h-9 w-9 place-items-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-primary hover:text-white dark:bg-gray-800"
+                      className={`grid h-9 w-9 place-items-center rounded-full text-white transition-opacity hover:opacity-85 ${social.bg}`}
                     >
                       <social.icon size={16} strokeWidth={2} aria-hidden="true" />
                     </a>

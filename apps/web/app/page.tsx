@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, Heart, Layers, Send, ShieldCheck, Sparkles, UserCheck, Wrench } from 'lucide-react'
+import { ArrowRight, Layers, Send, Sparkles } from 'lucide-react'
 import type { ToolCategory } from '@utoolios/core'
-import { AdSlot, Container, StatBar, ToolCard } from '@utoolios/ui'
+import { AdSlot, Container, ToolCard } from '@utoolios/ui'
 import { getAllCategories, getAllTools, getRecentlyAddedTools, getToolsByCategory } from '@utoolios/tools'
 import { toolPath, categoryPath } from '@utoolios/engine'
 import { CategoryIcon, categoryLabel } from '@/components/category-icon'
@@ -125,16 +125,6 @@ export default function HomePage() {
               </div>
             )}
           </section>
-
-          {/* Trust / stats bar */}
-          <StatBar
-            items={[
-              { icon: <Wrench size={24} strokeWidth={2} />, value: String(allTools.length), label: 'Free Tools' },
-              { icon: <Heart size={24} strokeWidth={2} />, value: '100%', label: 'Free Forever' },
-              { icon: <UserCheck size={24} strokeWidth={2} />, value: 'No Signup', label: 'Required' },
-              { icon: <ShieldCheck size={24} strokeWidth={2} />, value: 'Secure', label: '& Private' },
-            ]}
-          />
 
           {/* Browse by categories */}
           <section
